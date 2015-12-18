@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -24,37 +23,35 @@ namespace Calculator
             LabelExpression.Text = "";
             LabelResult.Text = "0";
             oldColor = LabelResult.BackColor;
-            _uiAutomateBackgroundWorker.DoWork += new DoWorkEventHandler(
-                delegate (object o, DoWorkEventArgs args)
+            _uiAutomateBackgroundWorker.DoWork += delegate (object o, DoWorkEventArgs args)
+            {
+                BackgroundWorker b = o as BackgroundWorker;
+                if (b == null) return;
+                for (int i = 99; i > 0 && !b.CancellationPending; i -= 2)
                 {
-                    BackgroundWorker b = o as BackgroundWorker;
-                    for (int i = 99; i > 0 && !b.CancellationPending; i -= 2)
-                    {
-                        b.ReportProgress(i);
-                        Thread.Sleep(1);
-                    }
-                    for (int i = 0; i < 100 && !b.CancellationPending; i++)
-                    {
-                        b.ReportProgress(i);
-                        Thread.Sleep(2);
-                    }
-                });
-            _uiAutomateBackgroundWorker.ProgressChanged += new ProgressChangedEventHandler(
-            delegate (object o, ProgressChangedEventArgs args)
+                    b.ReportProgress(i);
+                    Thread.Sleep(1);
+                }
+                for (int i = 0; i < 100 && !b.CancellationPending; i++)
+                {
+                    b.ReportProgress(i);
+                    Thread.Sleep(2);
+                }
+            };
+            _uiAutomateBackgroundWorker.ProgressChanged += delegate (object o, ProgressChangedEventArgs args)
             {
                 int i = args.ProgressPercentage;
                 LabelResult.BackColor = ColorBlender.Blend(oldColor, AlertColor, (double)i / 100);
-            });
-            _uiAutomateBackgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(
-            delegate (object o, RunWorkerCompletedEventArgs args)
-            {
-                LabelResult.BackColor = oldColor;
-            });
+            };
+            _uiAutomateBackgroundWorker.RunWorkerCompleted += delegate {
+                                                                           LabelResult.BackColor = oldColor;
+            };
         }
 
         private void btns_Click(object sender, EventArgs e)
         {
             Button btn = sender as Button;
+            if (btn == null) return;
             try
             {
                 if (LabelResult.Text == "0") LabelResult.Text = "";
@@ -120,7 +117,7 @@ namespace Calculator
             finally
             {
                 _isExpressionStart = (btn.Text == "=") || (btn.Text == "C") ||
-                                     (LabelExpression.Text.Trim().Length == 0);
+                                        (LabelExpression.Text.Trim().Length == 0);
                 _isNumberStart = !((btn.Text[0] < '9' && btn.Text[0] > '1') || btn.Text[0] == '.');
                 LabelResult.Text = LabelResult.Text.Trim();
                 LabelExpression.Text = LabelExpression.Text.Trim();
