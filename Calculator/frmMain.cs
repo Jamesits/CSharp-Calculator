@@ -72,6 +72,7 @@ namespace Calculator
                     case ".":
                         if (_isNumberStart) LabelResult.Text = "";
                         if (LabelResult.Text == "" && btn.Text == ".") LabelResult.Text = "0";
+                        if (LabelResult.Text.Length > 10) throw new InvalidOperationException("Too long");
                         LabelResult.Text += btn.Text;
                         break;
                     case "+":
@@ -118,7 +119,7 @@ namespace Calculator
             {
                 _isExpressionStart = (btn.Text == "=") || (btn.Text == "C") ||
                                         (LabelExpression.Text.Trim().Length == 0);
-                _isNumberStart = !((btn.Text[0] < '9' && btn.Text[0] > '1') || btn.Text[0] == '.');
+                _isNumberStart = !((btn.Text[0] <= '9' && btn.Text[0] >= '1') || btn.Text[0] == '.');
                 LabelResult.Text = LabelResult.Text.Trim();
                 LabelExpression.Text = LabelExpression.Text.Trim();
                 if (LabelResult.Text == "") LabelResult.Text = "0";
