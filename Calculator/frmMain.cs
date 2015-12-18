@@ -79,7 +79,8 @@ namespace Calculator
                     case "-":
                     case "*":
                     case "/":
-                        LabelResult.Text = LabelResult.Text.Trim().TrimEnd('.');
+                        if (_isNumberStart && !_isExpressionStart) break;
+                        LabelResult.Text = LabelResult.Text.Trim().TrimEnd('.').TrimStart('0');
                         if (LabelResult.Text == "") LabelResult.Text = "0";
                         LabelExpression.Text += " " + LabelResult.Text + " " + btn.Text + " ";
                         break;
@@ -120,7 +121,7 @@ namespace Calculator
                 _isExpressionStart = (btn.Text == "=") || (btn.Text == "C") ||
                                         (LabelExpression.Text.Trim().Length == 0);
                 _isNumberStart = !((btn.Text[0] <= '9' && btn.Text[0] >= '1') || btn.Text[0] == '.');
-                LabelResult.Text = LabelResult.Text.Trim();
+                LabelResult.Text = LabelResult.Text.Trim();//.TrimStart('0');
                 LabelExpression.Text = LabelExpression.Text.Trim();
                 if (LabelResult.Text == "") LabelResult.Text = "0";
             }
