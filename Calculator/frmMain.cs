@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -12,7 +13,7 @@ namespace Calculator
         private bool _isExpressionStart = true;
         private bool _isNumberStart = true;
         private BackgroundWorker _uiAutomateBackgroundWorker = new BackgroundWorker();
-        private Color oldColor;
+        private Color oldColor = Color.White;
         private Color AlertColor = Color.Red;
         public FrmMain()
         {
@@ -22,15 +23,15 @@ namespace Calculator
             _uiAutomateBackgroundWorker.WorkerSupportsCancellation = true;
             LabelExpression.Text = "";
             LabelResult.Text = "0";
-            oldColor = LabelResult.BackColor;
+            //oldColor = LabelResult.BackColor;
             _uiAutomateBackgroundWorker.DoWork += delegate (object o, DoWorkEventArgs args)
             {
                 BackgroundWorker b = o as BackgroundWorker;
                 if (b == null) return;
-                for (int i = 99; i > 0 && !b.CancellationPending; i -= 2)
+                for (int i = 99; i > 0 && !b.CancellationPending; i -= 4)
                 {
                     b.ReportProgress(i);
-                    Thread.Sleep(1);
+                    Thread.Sleep(2);
                 }
                 for (int i = 0; i < 100 && !b.CancellationPending; i++)
                 {
@@ -41,10 +42,15 @@ namespace Calculator
             _uiAutomateBackgroundWorker.ProgressChanged += delegate (object o, ProgressChangedEventArgs args)
             {
                 int i = args.ProgressPercentage;
-                LabelResult.BackColor = ColorBlender.Blend(oldColor, AlertColor, (double)i / 100);
+                Color c = ColorBlender.Blend(oldColor, AlertColor, (double) i/100);
+                LabelResult.BackColor = c;
+                LabelExpression.BackColor = c;
+                this.BackColor = c;
             };
             _uiAutomateBackgroundWorker.RunWorkerCompleted += delegate {
-                                                                           LabelResult.BackColor = oldColor;
+                LabelResult.BackColor = oldColor;
+                LabelExpression.BackColor = oldColor;
+                this.BackColor = oldColor;
             };
         }
 
@@ -80,7 +86,7 @@ namespace Calculator
                     case "*":
                     case "/":
                         if (_isNumberStart && !_isExpressionStart) break;
-                        LabelResult.Text = LabelResult.Text.Trim().TrimEnd('.').TrimStart('0');
+                        LabelResult.Text = LabelResult.Text.Trim().TrimEnd('.');
                         if (LabelResult.Text == "") LabelResult.Text = "0";
                         LabelExpression.Text += " " + LabelResult.Text + " " + btn.Text + " ";
                         break;
@@ -120,7 +126,7 @@ namespace Calculator
             {
                 _isExpressionStart = (btn.Text == "=") || (btn.Text == "C") ||
                                         (LabelExpression.Text.Trim().Length == 0);
-                _isNumberStart = !((btn.Text[0] <= '9' && btn.Text[0] >= '1') || btn.Text[0] == '.');
+                _isNumberStart = !((btn.Text[0] <= '9' && btn.Text[0] >= '0') || btn.Text[0] == '.');
                 LabelResult.Text = LabelResult.Text.Trim();//.TrimStart('0');
                 LabelExpression.Text = LabelExpression.Text.Trim();
                 if (LabelResult.Text == "") LabelResult.Text = "0";
