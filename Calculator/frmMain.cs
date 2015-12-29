@@ -118,7 +118,9 @@ namespace Calculator
                         LabelExpression.Text += " " + LabelResult.Text;
                         LabelResult.Text = _evaluator.Evaluate(LabelExpression.Text).ToString();
                         break;
-                    
+                    default:
+                        OnError();
+                        return;
                 }
             }
             catch (Exception)
@@ -150,33 +152,33 @@ namespace Calculator
             LabelExpression.Text = "";
         }
 
-        private void FrmMain_KeyDown(object sender, KeyEventArgs e)
+        protected override bool ProcessCmdKey(ref Message msg , Keys keyData)
         {
-            switch (e.KeyCode)
+            switch (keyData)
             {
                 case Keys.Delete:
                 case Keys.Back:
                     ProcessKeys("DEL");
-                    e.SuppressKeyPress = true;
                     break;
                 case Keys.C:
                     ProcessKeys("C");
-                    e.SuppressKeyPress = true;
                     break;
                 case Keys.E:
                     ProcessKeys("CE");
-                    e.SuppressKeyPress = true;
                     break;
-                case Keys.Return:
+                case Keys.Enter:
                     ProcessKeys("=");
-                    e.SuppressKeyPress = true;
                     break;
+                default:
+                    return false;
             }
+            return true;
         }
 
         private void FrmMain_KeyPress(object sender, KeyPressEventArgs e)
         {
             ProcessKeys(e.KeyChar.ToString());
+            e.Handled = true;
         }
     }
 }

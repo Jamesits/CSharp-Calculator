@@ -88,6 +88,7 @@ namespace Calculator
             this.btnEqual.Name = "btnEqual";
             this.btnEqual.Size = new System.Drawing.Size(82, 55);
             this.btnEqual.TabIndex = 2;
+            this.btnEqual.TabStop = false;
             this.btnEqual.Text = "=";
             this.btnEqual.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnEqual.UseVisualStyleBackColor = true;
@@ -104,6 +105,7 @@ namespace Calculator
             this.btnPlus.Name = "btnPlus";
             this.btnPlus.Size = new System.Drawing.Size(82, 55);
             this.btnPlus.TabIndex = 3;
+            this.btnPlus.TabStop = false;
             this.btnPlus.Text = "+";
             this.btnPlus.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnPlus.UseVisualStyleBackColor = true;
@@ -120,6 +122,7 @@ namespace Calculator
             this.btnMinus.Name = "btnMinus";
             this.btnMinus.Size = new System.Drawing.Size(82, 55);
             this.btnMinus.TabIndex = 4;
+            this.btnMinus.TabStop = false;
             this.btnMinus.Text = "-";
             this.btnMinus.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnMinus.UseVisualStyleBackColor = true;
@@ -136,6 +139,7 @@ namespace Calculator
             this.btnMultiple.Name = "btnMultiple";
             this.btnMultiple.Size = new System.Drawing.Size(82, 55);
             this.btnMultiple.TabIndex = 5;
+            this.btnMultiple.TabStop = false;
             this.btnMultiple.Text = "*";
             this.btnMultiple.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnMultiple.UseVisualStyleBackColor = true;
@@ -152,6 +156,7 @@ namespace Calculator
             this.btnDivide.Name = "btnDivide";
             this.btnDivide.Size = new System.Drawing.Size(82, 55);
             this.btnDivide.TabIndex = 6;
+            this.btnDivide.TabStop = false;
             this.btnDivide.Text = "/";
             this.btnDivide.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnDivide.UseVisualStyleBackColor = true;
@@ -168,6 +173,7 @@ namespace Calculator
             this.btnDot.Name = "btnDot";
             this.btnDot.Size = new System.Drawing.Size(82, 55);
             this.btnDot.TabIndex = 7;
+            this.btnDot.TabStop = false;
             this.btnDot.Text = ".";
             this.btnDot.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnDot.UseVisualStyleBackColor = true;
@@ -184,6 +190,7 @@ namespace Calculator
             this.btn0.Name = "btn0";
             this.btn0.Size = new System.Drawing.Size(82, 55);
             this.btn0.TabIndex = 8;
+            this.btn0.TabStop = false;
             this.btn0.Text = "0";
             this.btn0.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btn0.UseVisualStyleBackColor = true;
@@ -200,6 +207,7 @@ namespace Calculator
             this.btnPlusMinus.Name = "btnPlusMinus";
             this.btnPlusMinus.Size = new System.Drawing.Size(82, 55);
             this.btnPlusMinus.TabIndex = 9;
+            this.btnPlusMinus.TabStop = false;
             this.btnPlusMinus.Text = "+/-";
             this.btnPlusMinus.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnPlusMinus.UseVisualStyleBackColor = true;
@@ -216,6 +224,7 @@ namespace Calculator
             this.btn1.Name = "btn1";
             this.btn1.Size = new System.Drawing.Size(82, 55);
             this.btn1.TabIndex = 10;
+            this.btn1.TabStop = false;
             this.btn1.Text = "1";
             this.btn1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btn1.UseVisualStyleBackColor = true;
@@ -232,6 +241,7 @@ namespace Calculator
             this.btn2.Name = "btn2";
             this.btn2.Size = new System.Drawing.Size(82, 55);
             this.btn2.TabIndex = 11;
+            this.btn2.TabStop = false;
             this.btn2.Text = "2";
             this.btn2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btn2.UseVisualStyleBackColor = true;
@@ -248,6 +258,7 @@ namespace Calculator
             this.btn3.Name = "btn3";
             this.btn3.Size = new System.Drawing.Size(82, 55);
             this.btn3.TabIndex = 12;
+            this.btn3.TabStop = false;
             this.btn3.Text = "3";
             this.btn3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btn3.UseVisualStyleBackColor = true;
@@ -264,6 +275,7 @@ namespace Calculator
             this.btn6.Name = "btn6";
             this.btn6.Size = new System.Drawing.Size(82, 55);
             this.btn6.TabIndex = 13;
+            this.btn6.TabStop = false;
             this.btn6.Text = "6";
             this.btn6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btn6.UseVisualStyleBackColor = true;
@@ -280,6 +292,7 @@ namespace Calculator
             this.btn9.Name = "btn9";
             this.btn9.Size = new System.Drawing.Size(82, 55);
             this.btn9.TabIndex = 14;
+            this.btn9.TabStop = false;
             this.btn9.Text = "9";
             this.btn9.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btn9.UseVisualStyleBackColor = true;
@@ -296,6 +309,7 @@ namespace Calculator
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(82, 55);
             this.btnDelete.TabIndex = 15;
+            this.btnDelete.TabStop = false;
             this.btnDelete.Text = "DEL";
             this.btnDelete.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnDelete.UseVisualStyleBackColor = true;
@@ -312,6 +326,7 @@ namespace Calculator
             this.btn4.Name = "btn4";
             this.btn4.Size = new System.Drawing.Size(82, 55);
             this.btn4.TabIndex = 16;
+            this.btn4.TabStop = false;
             this.btn4.Text = "4";
             this.btn4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btn4.UseVisualStyleBackColor = true;
@@ -328,6 +343,7 @@ namespace Calculator
             this.btn7.Name = "btn7";
             this.btn7.Size = new System.Drawing.Size(82, 55);
             this.btn7.TabIndex = 17;
+            this.btn7.TabStop = false;
             this.btn7.Text = "7";
             this.btn7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btn7.UseVisualStyleBackColor = true;
@@ -344,6 +360,7 @@ namespace Calculator
             this.btnCE.Name = "btnCE";
             this.btnCE.Size = new System.Drawing.Size(82, 55);
             this.btnCE.TabIndex = 18;
+            this.btnCE.TabStop = false;
             this.btnCE.Text = "CE";
             this.btnCE.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnCE.UseVisualStyleBackColor = true;
@@ -360,6 +377,7 @@ namespace Calculator
             this.btn5.Name = "btn5";
             this.btn5.Size = new System.Drawing.Size(82, 55);
             this.btn5.TabIndex = 19;
+            this.btn5.TabStop = false;
             this.btn5.Text = "5";
             this.btn5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btn5.UseVisualStyleBackColor = true;
@@ -376,6 +394,7 @@ namespace Calculator
             this.btn8.Name = "btn8";
             this.btn8.Size = new System.Drawing.Size(82, 55);
             this.btn8.TabIndex = 20;
+            this.btn8.TabStop = false;
             this.btn8.Text = "8";
             this.btn8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btn8.UseVisualStyleBackColor = true;
@@ -392,6 +411,7 @@ namespace Calculator
             this.btnC.Name = "btnC";
             this.btnC.Size = new System.Drawing.Size(82, 55);
             this.btnC.TabIndex = 22;
+            this.btnC.TabStop = false;
             this.btnC.Text = "C";
             this.btnC.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnC.UseVisualStyleBackColor = true;
@@ -433,7 +453,6 @@ namespace Calculator
             this.Name = "FrmMain";
             this.Text = "Calculator";
             this.Load += new System.EventHandler(this.FrmMain_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmMain_KeyDown);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FrmMain_KeyPress);
             this.ResumeLayout(false);
 
