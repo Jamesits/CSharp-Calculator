@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq.Expressions;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -12,9 +11,9 @@ namespace Calculator
         private readonly ExpressionEvaluator _evaluator = new ExpressionEvaluator();
         private bool _isExpressionStart = true;
         private bool _isNumberStart = true;
-        private BackgroundWorker _uiAutomateBackgroundWorker = new BackgroundWorker();
-        private Color oldColor = Color.White;
-        private Color AlertColor = Color.Red;
+        private readonly BackgroundWorker _uiAutomateBackgroundWorker = new BackgroundWorker();
+        private readonly Color _oldColor = Color.White;
+        private readonly Color _alertColor = Color.Red;
 
         public FrmMain()
         {
@@ -24,7 +23,6 @@ namespace Calculator
             _uiAutomateBackgroundWorker.WorkerSupportsCancellation = true;
             LabelExpression.Text = "";
             LabelResult.Text = "0";
-            //oldColor = LabelResult.BackColor;
             _uiAutomateBackgroundWorker.DoWork += delegate(object o, DoWorkEventArgs args)
             {
                 BackgroundWorker b = o as BackgroundWorker;
@@ -43,27 +41,27 @@ namespace Calculator
             _uiAutomateBackgroundWorker.ProgressChanged += delegate(object o, ProgressChangedEventArgs args)
             {
                 int i = args.ProgressPercentage;
-                Color c = ColorBlender.Blend(oldColor, AlertColor, (double) i/100);
+                Color c = ColorBlender.Blend(_oldColor, _alertColor, (double) i/100);
                 LabelResult.BackColor = c;
                 LabelExpression.BackColor = c;
-                this.BackColor = c;
+                BackColor = c;
             };
             _uiAutomateBackgroundWorker.RunWorkerCompleted += delegate
             {
-                LabelResult.BackColor = oldColor;
-                LabelExpression.BackColor = oldColor;
-                this.BackColor = oldColor;
+                LabelResult.BackColor = _oldColor;
+                LabelExpression.BackColor = _oldColor;
+                BackColor = _oldColor;
             };
         }
 
-        private void onError()
+        private void OnError()
         {
             if (_uiAutomateBackgroundWorker.IsBusy) _uiAutomateBackgroundWorker.CancelAsync();
             while (_uiAutomateBackgroundWorker.IsBusy) Application.DoEvents();
             _uiAutomateBackgroundWorker.RunWorkerAsync();
         }
 
-        private void processKeys(string keyString)
+        private void ProcessKeys(string keyString)
         {
             try
             {
@@ -120,11 +118,12 @@ namespace Calculator
                         LabelExpression.Text += " " + LabelResult.Text;
                         LabelResult.Text = _evaluator.Evaluate(LabelExpression.Text).ToString();
                         break;
+                    
                 }
             }
             catch (Exception)
             {
-                onError();
+                OnError();
                 LabelExpression.Text = "";
             }
             finally
@@ -142,7 +141,7 @@ namespace Calculator
         {
             Button btn = sender as Button;
             if (btn == null) return;
-            processKeys(btn.Text);
+            ProcessKeys(btn.Text);
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
@@ -157,20 +156,27 @@ namespace Calculator
             {
                 case Keys.Delete:
                 case Keys.Back:
-                    processKeys("DEL");
+                    ProcessKeys("DEL");
+                    e.SuppressKeyPress = true;
                     break;
                 case Keys.C:
-                    processKeys("C");
+                    ProcessKeys("C");
+                    e.SuppressKeyPress = true;
                     break;
                 case Keys.E:
-                    processKeys("CE");
+                    ProcessKeys("CE");
+                    e.SuppressKeyPress = true;
+                    break;
+                case Keys.Return:
+                    ProcessKeys("=");
+                    e.SuppressKeyPress = true;
                     break;
             }
         }
 
         private void FrmMain_KeyPress(object sender, KeyPressEventArgs e)
         {
-            processKeys(e.KeyChar.ToString());
+            ProcessKeys(e.KeyChar.ToString());
         }
     }
 }
