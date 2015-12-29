@@ -15,6 +15,7 @@ namespace Calculator
         private BackgroundWorker _uiAutomateBackgroundWorker = new BackgroundWorker();
         private Color oldColor = Color.White;
         private Color AlertColor = Color.Red;
+
         public FrmMain()
         {
             InitializeComponent();
@@ -24,7 +25,7 @@ namespace Calculator
             LabelExpression.Text = "";
             LabelResult.Text = "0";
             //oldColor = LabelResult.BackColor;
-            _uiAutomateBackgroundWorker.DoWork += delegate (object o, DoWorkEventArgs args)
+            _uiAutomateBackgroundWorker.DoWork += delegate(object o, DoWorkEventArgs args)
             {
                 BackgroundWorker b = o as BackgroundWorker;
                 if (b == null) return;
@@ -39,7 +40,7 @@ namespace Calculator
                     Thread.Sleep(2);
                 }
             };
-            _uiAutomateBackgroundWorker.ProgressChanged += delegate (object o, ProgressChangedEventArgs args)
+            _uiAutomateBackgroundWorker.ProgressChanged += delegate(object o, ProgressChangedEventArgs args)
             {
                 int i = args.ProgressPercentage;
                 Color c = ColorBlender.Blend(oldColor, AlertColor, (double) i/100);
@@ -47,23 +48,29 @@ namespace Calculator
                 LabelExpression.BackColor = c;
                 this.BackColor = c;
             };
-            _uiAutomateBackgroundWorker.RunWorkerCompleted += delegate {
+            _uiAutomateBackgroundWorker.RunWorkerCompleted += delegate
+            {
                 LabelResult.BackColor = oldColor;
                 LabelExpression.BackColor = oldColor;
                 this.BackColor = oldColor;
             };
         }
 
-        private void btns_Click(object sender, EventArgs e)
+        private void onError()
         {
-            Button btn = sender as Button;
-            if (btn == null) return;
+            if (_uiAutomateBackgroundWorker.IsBusy) _uiAutomateBackgroundWorker.CancelAsync();
+            while (_uiAutomateBackgroundWorker.IsBusy) Application.DoEvents();
+            _uiAutomateBackgroundWorker.RunWorkerAsync();
+        }
+
+        private void processKeys(string keyString)
+        {
             try
             {
                 if (LabelResult.Text == "0") LabelResult.Text = "";
                 LabelExpression.Text = LabelExpression.Text.Trim();
                 if (_isExpressionStart) LabelExpression.Text = "";
-                switch (btn.Text)
+                switch (keyString)
                 {
                     case "1":
                     case "2":
@@ -77,9 +84,9 @@ namespace Calculator
                     case "0":
                     case ".":
                         if (_isNumberStart) LabelResult.Text = "";
-                        if (LabelResult.Text == "" && btn.Text == ".") LabelResult.Text = "0";
+                        if (LabelResult.Text == "" && keyString == ".") LabelResult.Text = "0";
                         if (LabelResult.Text.Length > 10) throw new InvalidOperationException("Too long");
-                        LabelResult.Text += btn.Text;
+                        LabelResult.Text += keyString;
                         break;
                     case "+":
                     case "-":
@@ -88,7 +95,7 @@ namespace Calculator
                         if (_isNumberStart && !_isExpressionStart) break;
                         LabelResult.Text = LabelResult.Text.Trim().TrimEnd('.');
                         if (LabelResult.Text == "") LabelResult.Text = "0";
-                        LabelExpression.Text += " " + LabelResult.Text + " " + btn.Text + " ";
+                        LabelExpression.Text += " " + LabelResult.Text + " " + keyString + " ";
                         break;
                     case "+/-":
                         if (LabelResult.Text != "")
@@ -117,25 +124,53 @@ namespace Calculator
             }
             catch (Exception)
             {
-                if (_uiAutomateBackgroundWorker.IsBusy) _uiAutomateBackgroundWorker.CancelAsync();
-                while (_uiAutomateBackgroundWorker.IsBusy) Application.DoEvents();
-                _uiAutomateBackgroundWorker.RunWorkerAsync();
+                onError();
                 LabelExpression.Text = "";
             }
             finally
             {
-                _isExpressionStart = (btn.Text == "=") || (btn.Text == "C") ||
-                                        (LabelExpression.Text.Trim().Length == 0);
-                _isNumberStart = !((btn.Text[0] <= '9' && btn.Text[0] >= '0') || btn.Text[0] == '.');
-                LabelResult.Text = LabelResult.Text.Trim();//.TrimStart('0');
+                _isExpressionStart = (keyString == "=") || (keyString == "C") ||
+                                     (LabelExpression.Text.Trim().Length == 0);
+                _isNumberStart = !((keyString[0] <= '9' && keyString[0] >= '0') || keyString[0] == '.');
+                LabelResult.Text = LabelResult.Text.Trim(); //.TrimStart('0');
                 LabelExpression.Text = LabelExpression.Text.Trim();
                 if (LabelResult.Text == "") LabelResult.Text = "0";
             }
         }
+
+        private void btns_Click(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            if (btn == null) return;
+            processKeys(btn.Text);
+        }
+
         private void FrmMain_Load(object sender, EventArgs e)
         {
             LabelResult.Text = "0";
             LabelExpression.Text = "";
+        }
+
+        private void FrmMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Delete:
+                case Keys.Back:
+                    processKeys("DEL");
+                    break;
+                case Keys.C:
+                    processKeys("C");
+                    break;
+                case Keys.E:
+                    processKeys("CE");
+                    break;
+            }
+        }
+
+        private void FrmMain_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            processKeys(e.KeyChar.ToString());
         }
     }
 }
